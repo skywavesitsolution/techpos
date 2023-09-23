@@ -29,3 +29,10 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('products', [\App\Http\Controllers\Product\ProductController::class, 'index']);
+Route::get('products/create', [\App\Http\Controllers\Product\ProductController::class, 'create']);
+Route::post('products', [\App\Http\Controllers\Product\ProductController::class, 'store'])->name('product.store');
+Route::delete('products', [\App\Http\Controllers\Product\ProductController::class, 'store']);
+Route::options('products', [\App\Http\Controllers\Product\ProductController::class, 'store']);
+Route::patch('products', [\App\Http\Controllers\Product\ProductController::class, 'store']);
