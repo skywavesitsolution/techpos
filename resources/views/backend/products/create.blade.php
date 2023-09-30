@@ -25,25 +25,40 @@
                     @csrf
                     @method('POST')
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="col mb-3">
+                            <label for="slug" class="form-label">Slug</label>
+                            <input type="text" class="form-control" id="slug" name="slug">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="slug" class="form-label">Slug</label>
-                        <input type="text" class="form-control" id="slug" name="slug">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="sku" class="form-label">SKU</label>
+                            <input type="text" class="form-control" id="sku" name="sku">
+                        </div>
+                        <div class="col mb-3">
+                            <label for="cost" class="form-label">Cost</label>
+                            <input type="number" class="form-control" id="cost" name="cost">
+                        </div>
+                        <div class="col mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="price" name="price">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="sku" class="form-label">SKU</label>
-                        <input type="text" class="form-control" id="sku" name="sku">
-                    </div>
-                    <div class="mb-3">
-                        <label for="cost" class="form-label">Cost</label>
-                        <input type="number" class="form-control" id="cost" name="cost">
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <input type="text" class="form-control" id="price" name="price">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="category"></label>
+                            <select id="category" class="form-control" name="category_id">
+                                <option value="">Select Category</option>
+                                @foreach($categories as $i => $category)
+                                    <option value="{{$category->id}}" data-category-metadata="{{$category->metadata}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <div class="mb-3">

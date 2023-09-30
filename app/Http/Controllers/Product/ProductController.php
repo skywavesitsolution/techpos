@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category\Category;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,12 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('backend.products.create');
+        $categories = Category::query()
+            ->orderByDesc('id')
+            ->get();
+        $currency_symbol = '$';
+
+        return view('backend.products.create', compact('categories', 'currency_symbol'));
     }
 
     public function store(Request $request)
@@ -25,7 +31,7 @@ class ProductController extends Controller
             'slug' => ['required', 'unique:products,slug'],
             'sku' => ['required'],
             'price' => ['required', 'int'],
-            'category_id' => ['nullable'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'cost' => ['required'],
             'is_gifted' => ['nullable'],
             'featured' => ['nullable'],
