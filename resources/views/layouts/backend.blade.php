@@ -24,7 +24,9 @@
 {{--    @endif--}}
 {{--</div>--}}
 
-    @yield('content')
+    <div class="mt-5">
+        @yield('content')
+    </div>
 
     @yield('modal-popup')
 </body>

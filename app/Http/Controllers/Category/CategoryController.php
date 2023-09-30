@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStoreRequest;
 use App\Models\Category\Category;
 use Illuminate\Http\Request;
 
@@ -10,36 +11,60 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return Category::all();
+        //dd(Category::where('id', '=', 2)->get());
+        /*foreach ($categories as $category) {
+            if ($category->parent_id !== null) {
+                $c = Category::where('id', '=', $category->parent_id)->first();
+                dd($c);
+            }
+        }*/
+
+        //$categories = Category::query()->paginate(40);
+        $categories = Category::query()->with('sub_category')->get();
+
+        return view('backend.categories.index', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function create()
     {
-        $request->validate([
-            'name' => ['required'],
-            'slug' => ['required'],
-            'metadata' => ['nullable'],
+        //$categories = Category::query()->where('parent_id', '=', null)->get();
+        //$categories = Category::query()->whereNull('parent_id')->get();
+        //$categories = Category::query()->parentCategories()->get();
+
+        $categories = Category::query()
+            ->whereNull('parent_id')
+            ->get();
+
+        return view('backend.categories.create', compact('categories'));
+    }
+
+    public function store(CategoryStoreRequest $request)
+    {
+        $response = '';
+        //Category::query()->create($request->all());
+        $category = Category::query()->create([
+            'name' => $request->validated('name'),
+            'slug' => \Str::slug($request->validated('slug')),
+            'metadata' => $request->validated('metadata'),
+            'parent_id' => $request->validated('parent_id'),
         ]);
+        if ($category->wasRecentlyCreated) {
+            $response = 'Record Created';
+        } else {
+            $response = 'Record Not Created';
+        }
 
-        return Category::create($request->validated());
+        return redirect()->route('category.index')->with(['status' => $response]);
     }
 
-    public function show(Category $category)
+    public function show()
     {
-        return $category;
+
     }
 
-    public function update(Request $request, Category $category)
+    public function update()
     {
-        $request->validate([
-            'name' => ['required'],
-            'slug' => ['required'],
-            'metadata' => ['nullable'],
-        ]);
 
-        $category->update($request->validated());
-
-        return $category;
     }
 
     public function destroy(Category $category)
@@ -49,7 +74,4 @@ class CategoryController extends Controller
         return response()->json();
     }
 
-    function temp() {
-        return 'remp';
-    }
 }
