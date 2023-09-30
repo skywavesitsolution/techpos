@@ -48,4 +48,8 @@ class CategoryController extends Controller
 
         return response()->json();
     }
+
+    function temp() {
+        return 'remp';
+    }
 }
