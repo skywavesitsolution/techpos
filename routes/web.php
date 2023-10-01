@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use \App\Http\Controllers\Category\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,3 +38,8 @@ Route::post('products', [\App\Http\Controllers\Product\ProductController::class,
 Route::delete('products', [\App\Http\Controllers\Product\ProductController::class, 'store']);
 Route::options('products', [\App\Http\Controllers\Product\ProductController::class, 'store']);
 Route::patch('products', [\App\Http\Controllers\Product\ProductController::class, 'store']);
+
+
+Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
+Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');

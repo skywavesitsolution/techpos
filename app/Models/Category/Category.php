@@ -13,5 +13,13 @@ class Category extends Model
         'name',
         'slug',
         'metadata',
+        'parent_id'
     ];
+
+    //public function scopeParentCategories(){}
+
+    public function sub_category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
 }
